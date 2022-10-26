@@ -8,7 +8,7 @@ GPIO.setup(dac ,GPIO.OUT, initial=GPIO.HIGH)
 GPIO.setup(leds,GPIO.OUT)
 comp=4
 troyka=17
-GPIO.setup(troyka, GPIO.OUT)
+GPIO.setup(troyka, GPIO.OUT, initial=GPIO.HIGH)
 GPIO.setup(comp, GPIO.IN)
 
 #перевод из десятичной в двоичную
@@ -19,7 +19,7 @@ def d2b(value):
 def adc():
     value=0
     for i in range(7, -1, -1):
-        value+2**(7-i)
+        value+=2**i
         a=d2b(value)
         GPIO.output(dac,a)
         time.sleep(0.0007)
@@ -34,20 +34,20 @@ def led(v0):
     
 try:
     measured_data=[]
-    start_time=time.time()
-    GPIO.output(troyka, 1)
     v=0
-    
+    start_time=time.time()
+
     #конденсатор заряжается
-    while (v<0.97*256):
+    while v<0.97*256:
         v=adc()
         measured_data.append(v)
         led(v)
+        print(v)
         
-    GPIO.output(troyka,0)
+    GPIO.setup(troyka, GPIO.OUT, initial=GPIO.LOW)
     
     #конденсатор разряжается
-    while (v>0.02*256):
+    while v>0.02*256:
         v=adc()
         measured_data.append(v)
         led(v)

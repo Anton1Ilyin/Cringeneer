@@ -42,7 +42,6 @@ try:
         v=adc()
         measured_data.append(v)
         led(v)
-        print(v)
         
     GPIO.setup(troyka, GPIO.OUT, initial=GPIO.LOW)
     
@@ -56,7 +55,7 @@ try:
     experiment_time=end_time-start_time
     
     #Построение графиков
-    plt.plot(range(len(measured_data)), [x*3.3/256 for i in measured_data])
+    plt.plot(range(len(measured_data)), [x*3.3/256 for x in measured_data])
     plt.show()
     
     measured_data_str=[str(item) for item in measured_data]

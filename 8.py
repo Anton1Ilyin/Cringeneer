@@ -8,7 +8,7 @@ data=np.loadtxt('data.txt', dtype=int) * settings[1]
 data_time=np.array([i*1/settings[0] for i in range(data.size)])
 
 
-fig, ax=plt.subplots(figsize=(8, 5), dpi=200)
+fig, ax=plt.subplots(figsize=(8, 5), dpi=150)
 
 
 ax.plot(data_time, data, c='black', linestyle='solid', linewidth=1, label = f'$V(t)$')

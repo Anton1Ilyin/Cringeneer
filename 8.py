@@ -1,36 +1,44 @@
 import matplotlib.pyplot as plt
-import numpy as np
 import matplotlib.ticker as ticker
+import numpy as np
 
-data_array=np.loadtxt("data.txt", dtype=int)
-settings_array=np.loadtxt("settings.txt", dtype=float)
 
-fig, ax =plt.subplots(figsize=(16, 10), dpi=400)
+settings=np.loadtxt("settings.txt", dtype=float)
+data=np.loadtxt('data.txt', dtype=int) * settings[1]
+data_time=np.array([i*1/settings[0] for i in range(data.size)])
 
-ax.plot([float(t/settings_array[1]) for t in range(len(data_array))] ,data_array*settings_array[0], linewidth=1.5, color='red', linestyle='solid', label=f'$V(t)$')
-ax.scatter([float(t/settings_array[1]) for t in range(0,len(data_array),1000)] ,data_array[::1000]*settings_array[0], marker='h', color='red', s=10)
 
-ax.grid(which='major', color = 'black')
+fig, ax=plt.subplots(figsize=(8, 5), dpi=200)
+
+
+ax.plot(data_time, data, c='red', linestyle='solid', linewidth=1, label = f'$V(t)$')
+ax.scatter(data_time[0:data.size:100], data[0:data.size:100], marker = 'D', c = 'green', s=10)
+ax.legend(shadow = False, loc = 'upper right', fontsize = 10)
+
+
+ax.set_xlim(left=min(data_time), right=max(data_time)+1)
+ax.set_ylim(bottom=min(data), top=max(data)+0.2)
+
+
+ax.xaxis.set_major_locator(ticker.MultipleLocator(2*3))
+ax.xaxis.set_minor_locator(ticker.MultipleLocator(0.5*3))
+ax.yaxis.set_major_locator(ticker.MultipleLocator(0.5*3))
+ax.yaxis.set_minor_locator(ticker.MultipleLocator(0.1*3))
+
+
+
+ax.grid(which='major', color = 'k')
 ax.minorticks_on()
-ax.grid(which='minor', color = 'gray', linestyle = ':')
-
-ax.xaxis.set_major_locator(ticker.MultipleLocator(2))
-ax.xaxis.set_minor_locator(ticker.MultipleLocator(0.5))
-ax.yaxis.set_major_locator(ticker.MultipleLocator(0.5))
-ax.yaxis.set_minor_locator(ticker.MultipleLocator(0.1))
-
-ax.legend(loc = 'upper right', fontsize = 20)
-
-#plt.text(6.2*10**10, 2.55, f'Время разрядки')
+ax.grid(which='minor', color = 'gray', linestyle = '--')
 
 
-ax.set_ylabel('Напряжение [B]')
-ax.set_xlabel('Время [сек]')
-ax.set_title('График напряжения')
 
-ax.set_xlim(left=0, right=103)
-ax.set_ylim(bottom=0, top=3.3)
+ax.set_title('Процесс заряда и разряда конденсатора в RC цепи')
+ax.set_ylabel("Напряжение, В")
+ax.set_xlabel("Время, с")
 
 
-#fig.savefig("plot.svg")
 plt.show()
+
+fig.savefig('graphic.png')
+fig.savefig('graphic.svg')

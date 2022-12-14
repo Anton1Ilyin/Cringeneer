@@ -11,8 +11,8 @@ data_time=np.array([i*1/settings[0] for i in range(data.size)])
 fig, ax=plt.subplots(figsize=(8, 5), dpi=200)
 
 
-ax.plot(data_time, data, c='red', linestyle='solid', linewidth=1, label = f'$V(t)$')
-ax.scatter(data_time[0:data.size:100], data[0:data.size:100], marker = 'D', c = 'green', s=10)
+ax.plot(data_time, data, c='black', linestyle='solid', linewidth=1, label = f'$V(t)$')
+ax.scatter(data_time[0:data.size:100], data[0:data.size:100], marker = 'D', c = 'red', s=10)
 ax.legend(shadow = False, loc = 'upper right', fontsize = 10)
 
 
